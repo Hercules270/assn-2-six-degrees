@@ -1,1 +1,4 @@
 data/
+*.o
+imdb-test
+six-degrees
