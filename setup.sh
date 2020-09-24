@@ -1,5 +1,4 @@
-chmod u+x rsgChecker*
-chmod u+x rsg-sample*
+chmod u+x six-degrees-*
 chmod u+x zip.sh
 wget https://github.com/freeuni-paradigms/assn-2-six-degrees-data/archive/master.zip
 unzip master.zip
