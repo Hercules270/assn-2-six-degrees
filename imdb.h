@@ -6,10 +6,10 @@
 #include <vector>
 using namespace std;
 
-class imdb {
-  
- public:
-  
+class imdb
+{
+
+public:
   /**
    * Constructor: imdb
    * -----------------
@@ -22,7 +22,7 @@ class imdb {
    * @param directory the name of the directory housing the formatted information backing the imdb.
    */
 
-  imdb(const string& directory);
+  imdb(const string &directory);
 
   /**
    * Predicate Method: good
@@ -52,7 +52,7 @@ class imdb {
    *              database, and false otherwise.
    */
 
-  bool getCredits(const string& player, vector<film>& films) const;
+  bool getCredits(const string &player, vector<film> &films) const;
 
   /**
    * Method: getCast
@@ -72,7 +72,7 @@ class imdb {
    *              database, and false otherwise.
    */
 
-  bool getCast(const film& movie, vector<string>& players) const;
+  bool getCast(const film &movie, vector<string> &players) const;
 
   /**
    * Destructor: ~imdb
@@ -82,31 +82,32 @@ class imdb {
    */
 
   ~imdb();
-  
- private:
+
+private:
   static const char *const kActorFileName;
   static const char *const kMovieFileName;
   const void *actorFile;
   const void *movieFile;
-  
+
   // everything below here is complicated and needn't be touched.
   // you're free to investigate, but you're on your own.
-  struct fileInfo {
+  struct fileInfo
+  {
     int fd;
     size_t fileSize;
     const void *fileMap;
   } actorInfo, movieInfo;
-  
-  static const void *acquireFileMap(const string& fileName, struct fileInfo& info);
-  static void releaseFileMap(struct fileInfo& info);
+
+  static const void *acquireFileMap(const string &fileName, struct fileInfo &info);
+  static void releaseFileMap(struct fileInfo &info);
 
   // marked as private so imdbs can't be copy constructed or reassigned.
   // if we were to allow this, we'd alias open files and accidentally close
   // files prematurely.. (do NOT implement these... since the client will
   // never call these, the code will never be needed.
-  imdb(const imdb& original);
-  imdb& operator=(const imdb& rhs);
-  imdb& operator=(const imdb& rhs) const;
+  imdb(const imdb &original);
+  imdb &operator=(const imdb &rhs);
+  imdb &operator=(const imdb &rhs) const;
 };
 
 #endif
