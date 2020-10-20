@@ -90,7 +90,7 @@ bool imdb::getCredits(const string &player, vector<film> &films) const
   void *searchResult = bsearch(&information, base, numberOfPlayers, sizeof(int), cmpPlayers);
   if (searchResult == NULL) //I nothing was found return false
     return false;
-
+  free(playerName);
   searchResult = (char *)actorFile + *(int *)searchResult; //get the pointer to the actor
   fillVectorWithFilms(searchResult, movieFile, films);     //Fill the vector with films
   return true;
