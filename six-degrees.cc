@@ -40,39 +40,41 @@ static string promptForActor(const string &prompt, const imdb &db)
   }
 }
 
+//This method is responsible for finding closest path between two actors with Djikstra.
 bool generateShortestPath(string source, string target, imdb &db)
 {
-  list<path> partialPaths;
-  set<string> visitedActors;
-  set<film> visitedFilms;
-  path start(source);
+  list<path> partialPaths;   //Queue of partial paths
+  set<string> visitedActors; //Set of already seen actors
+  set<film> visitedFilms;    //Set of already seen movies
+  path start(source);        //Creating partial path
   partialPaths.push_back(start);
-  while (!partialPaths.empty() && partialPaths.front().getLength() <= 5)
+  while (!partialPaths.empty() && partialPaths.front().getLength() <= 5) ///While queue is not empty
   {
-    path lastPath = partialPaths.front();
+    path lastPath = partialPaths.front(); //Get last path from queue
     partialPaths.pop_front();
     vector<film> lastActorFilms;
-    db.getCredits(lastPath.getLastPlayer(), lastActorFilms);
+    db.getCredits(lastPath.getLastPlayer(), lastActorFilms); //Generate all movies of last actor
 
+    //Iterate over last actors movies not yet visited
     for (film currentFilm : lastActorFilms)
     {
-      //film *currentFilm = &lastActorFilms[i];
       if (visitedFilms.find(currentFilm) == visitedFilms.end())
       {
         visitedFilms.insert(currentFilm);
         vector<string> filmCast;
         db.getCast(currentFilm, filmCast);
+
+        //Iterate over every actor of the movie not yet visited
         for (string currentActor : filmCast)
         {
-          //string *currentActor = &filmCast[i];
           if (visitedActors.find(currentActor) == visitedActors.end())
           {
             visitedActors.insert(currentActor);
-            path clone = lastPath;
-            clone.addConnection(currentFilm, currentActor);
+            path clone = lastPath;                          //Create new clone of path
+            clone.addConnection(currentFilm, currentActor); //Add new partial path to queue
             if (target == currentActor)
             {
-              cout << clone << endl;
+              cout << clone << endl; //If we reached target print path and return
               return true;
             }
             partialPaths.push_back(clone);
