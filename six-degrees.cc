@@ -54,23 +54,23 @@ bool generateShortestPath(string source, string target, imdb &db)
     vector<film> lastActorFilms;
     db.getCredits(lastPath.getLastPlayer(), lastActorFilms);
 
-    for (int i = 0; i < lastActorFilms.size(); i++)
+    for (film currentFilm : lastActorFilms)
     {
-      film *currentFilm = &lastActorFilms[i];
-      if (visitedFilms.find(*currentFilm) == visitedFilms.end())
+      //film *currentFilm = &lastActorFilms[i];
+      if (visitedFilms.find(currentFilm) == visitedFilms.end())
       {
-        visitedFilms.insert(*currentFilm);
+        visitedFilms.insert(currentFilm);
         vector<string> filmCast;
-        db.getCast(*currentFilm, filmCast);
-        for (int i = 0; i < filmCast.size(); i++)
+        db.getCast(currentFilm, filmCast);
+        for (string currentActor : filmCast)
         {
-          string *currentActor = &filmCast[i];
-          if (visitedActors.find(*currentActor) == visitedActors.end())
+          //string *currentActor = &filmCast[i];
+          if (visitedActors.find(currentActor) == visitedActors.end())
           {
-            visitedActors.insert(*currentActor);
+            visitedActors.insert(currentActor);
             path clone = lastPath;
-            clone.addConnection(*currentFilm, *currentActor);
-            if (target == *currentActor)
+            clone.addConnection(currentFilm, currentActor);
+            if (target == currentActor)
             {
               cout << clone << endl;
               return true;
